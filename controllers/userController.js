@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     user: "balakrishna1431313@gmail.com",
-    pass: "zmkkdvjwandpymyx",
+    pass: process.env.EMAIL_SECRET,
   },
 });
 async function sendPasswordResetLink(email, token) {
