@@ -5,6 +5,10 @@ const crypto = require("crypto");
 const Schema = mongoose.Schema;
 
 const bookingSchema = new Schema({
+  slotno: {
+    type: Number,
+    required: true,
+  },
   typeofvehicle: {
     type: String,
     required: true,
