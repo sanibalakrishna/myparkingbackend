@@ -14,11 +14,11 @@ const bookingSchema = new Schema({
     required: true,
   },
   timeperiod: {
-    type: String,
+    type: Date,
     required: true,
   },
   dateofparking: {
-    type: String,
+    type: Date,
     required: true,
   },
   vehiclenumber: {

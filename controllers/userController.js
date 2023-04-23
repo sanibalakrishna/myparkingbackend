@@ -92,10 +92,13 @@ const updatePassword = async (req, res) => {
 const updateBooking = async (req, res) => {
   // const{typeofvehicle,timeperiod,dateofparking,vehiclenumber}=req.body;
   const id = req.user._id.toString();
+  const{slotno,typeofvehicle,timeperiod,dateofparking,vehiclenumber}=req.body;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: "no such user found" });
   }
-  const tempbooking = await Booking.create(req.body);
+  const tempdateofparking = new Date(dateofparking);
+  const temptimeperiod = new Date(timeperiod);
+  const tempbooking = await Booking.create({slotno,typeofvehicle,timeperiod:temptimeperiod,dateofparking:tempdateofparking,vehiclenumber});
   const updateuser = await User.findOneAndUpdate(
     { _id: id },
     { $push: { bookings: tempbooking } }
