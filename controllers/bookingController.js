@@ -9,14 +9,14 @@ const getBookings = async (req, res) => {
 
 const getBookingsbyDate = async (req, res) => {
   const { date } = req.body;
-  const targetDate = new Date(date);
-  const targetDateStr = targetDate.toLocaleString("en-US", {
+
+  const targetDateStr = date.toLocaleString("en-US", {
     timeZone: "Asia/Kolkata",
   });
   const bookings = await Booking.find({
     $and: [
-      { timeperiod: { $gte: targetDate } },
-      { dateofparking: { $lte: targetDate } },
+      { timeperiod: { $gte: targetDateStr } },
+      { dateofparking: { $lte: targetDateStr } },
     ],
   });
   if (!bookings) {
