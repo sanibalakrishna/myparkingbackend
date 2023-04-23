@@ -9,15 +9,18 @@ const getBookings = async (req, res) => {
 
 const getBookingsbyDate = async (req, res) => {
   const { date } = req.body;
+  const targetDate = new Date(date);
+  const targetDateStr = targetDate.toLocaleString("en-US", {
+    timeZone: "Asia/Kolkata",
+  });
   const bookings = await Booking.find({
-    $or: [
-      { timeperiod: { $regex: `^${date}`, $options: "i" } },
-      { dateofparking: { $regex: `^${date}`, $options: "i" } },
+    $and: [
+      { timeperiod: { $gte: targetDate } },
+      { dateofparking: { $lte: targetDate } },
     ],
   });
-  if(!bookings)
-  {
-    res.status(400).json({message:"no such bookings are found"})
+  if (!bookings) {
+    res.status(400).json({ message: "no such bookings are found" });
   }
 
   res.status(200).json(bookings);
