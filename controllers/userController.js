@@ -91,9 +91,19 @@ const updatePassword = async (req, res) => {
 
 const updateBooking = async (req, res) => {
   const id = req.user._id.toString();
+  const {slotno,timeperiod,dateofparking} =req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: "no such user found" });
+  }
+ 
+  const bookings = await Booking.find({slotno,
+    $and: [{ timeperiod: { $gte: timeperiod } }, { dateofparking: { $lte: timeperiod } }],
+    $and: [{ timeperiod: { $gte: dateofparking } }, { dateofparking: { $lte: dateofparking } }],
+  });
+  if(bookings)
+  {
+    res.status(200).json({message:"Booking Already Exist at this Slot"})
   }
 
   const tempbooking = await Booking.create(req.body);
