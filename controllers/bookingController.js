@@ -14,10 +14,7 @@ const getBookingsbyDate = async (req, res) => {
     timeZone: "Asia/Kolkata",
   });
   const bookings = await Booking.find({
-    $and: [
-      { timeperiod: { $gte: targetDateStr } },
-      { dateofparking: { $lte: targetDateStr } },
-    ],
+    $and: [{ timeperiod: { $gte: date } }, { dateofparking: { $lte: date } }],
   });
   if (!bookings) {
     res.status(400).json({ message: "no such bookings are found" });

@@ -10,7 +10,7 @@ const {
 } = require("../controllers/userController");
 const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
-router.get("/date", getBookingsbyDate);
+router.post("/date/", getBookingsbyDate);
 router.post("/", requireAuth, updateBooking);
 router.delete("/:id", requireAuth, deleteBooking);
 router.get("/", getBookings);
