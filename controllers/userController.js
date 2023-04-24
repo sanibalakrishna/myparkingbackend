@@ -91,18 +91,31 @@ const updatePassword = async (req, res) => {
 
 const updateBooking = async (req, res) => {
   const id = req.user._id.toString();
-  const {slotno,timeperiod,dateofparking} =req.body;
+  const { slotno, timeperiod, dateofparking } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: "no such user found" });
   }
- 
+
   const bookings = await Booking.find({
-    $and: [{ timeperiod: { $gte: timeperiod } }, { dateofparking: { $lte: timeperiod } }],
+    slotno,
+    $or: [
+      {
+        $and: [
+          { timeperiod: { $gte: timeperiod } },
+          { dateofparking: { $lte: timeperiod } },
+        ],
+      },
+      {
+        $and: [
+          { timeperiod: { $gte: dateofparking } },
+          { dateofparking: { $lte: dateofparking } },
+        ],
+      },
+    ],
   });
-  console.log(bookings)
-  if (bookings.length>0) {
-    
+  console.log(bookings);
+  if (bookings.length > 0) {
     return res.status(200).json({ message: "booking already exists" });
   }
 
