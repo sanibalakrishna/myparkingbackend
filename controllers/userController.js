@@ -97,13 +97,13 @@ const updateBooking = async (req, res) => {
     return res.status(404).json({ message: "no such user found" });
   }
  
-  const bookings = await Booking.find({slotno,
+  const bookings = await Booking.find({
     $and: [{ timeperiod: { $gte: timeperiod } }, { dateofparking: { $lte: timeperiod } }],
-    $and: [{ timeperiod: { $gte: dateofparking } }, { dateofparking: { $lte: dateofparking } }],
   });
-  if(bookings)
-  {
-    res.status(200).json({message:"Booking Already Exist at this Slot"})
+  console.log(bookings)
+  if (bookings.length>0) {
+    
+    return res.status(200).json({ message: "booking already exists" });
   }
 
   const tempbooking = await Booking.create(req.body);
